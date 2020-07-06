@@ -1,15 +1,23 @@
 import os
+import psutil  # pip install psutil
 
-dir_path = ["C:\\","D:\\","F:\\"]
-fileExtension = (".mp3",".wav",".m4p",".aac",".3gp")
 
-allSongs = []
+def allSong():
+    dir_path = []
+    disks = psutil.disk_partitions()
+    for disk in disks:
+        dir_path.append(disk.device)
 
-for path in dir_path:
-    for root, dirs, files in os.walk(path):
-        for file in files:
-            if file.endswith(fileExtension):
-                allSongs.append(file)
+    fileExtension = (".mp3",".3gp")
+    allSongs = []
 
-for song in allSongs:
-    print(song)
+    for path in dir_path:
+        for root, dirs, files in os.walk(path):
+            for file in files:
+                if file.endswith(fileExtension):
+                    allSongs.append(root+"\\"+file)
+    return allSongs
+    # for song in allSongs:
+    #     return song
+
+print(allSong())
